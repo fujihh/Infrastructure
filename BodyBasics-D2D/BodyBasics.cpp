@@ -229,10 +229,10 @@ std::string write_Json(JointOrientation jointOrientations[], Joint joints[]) {
     std::vector<std::string>BonesName;
 
 
-    Json::Value root;
-    Json::Value pelvis;
+    //Json::Value root;
+    //Json::Value pelvis;
     Json::Value spine_01;
-    Json::Value spine_03;
+    //Json::Value spine_03;
     Json::Value spine_05;
     Json::Value neck_01;
     Json::Value head;
@@ -254,11 +254,11 @@ std::string write_Json(JointOrientation jointOrientations[], Joint joints[]) {
     Json::Value ball_l;
     
     Json::Value SourceData;
-    BonesList.push_back(root);
-    BonesList.push_back(pelvis);
-    BonesList.push_back(spine_05);
+    //BonesList.push_back(root);
+    //BonesList.push_back(pelvis);
     BonesList.push_back(spine_01);
-    BonesList.push_back(spine_03);
+    //BonesList.push_back(spine_03);
+    BonesList.push_back(spine_05);
     BonesList.push_back(neck_01);
     BonesList.push_back(head);
     BonesList.push_back(clavicle_l);
