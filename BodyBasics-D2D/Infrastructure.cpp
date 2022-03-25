@@ -37,33 +37,8 @@
 
 
 
- //namespace Bones {
-	// const std::string spine_01 = "spine_01";
-	// const std::string spine_05 = "spine_05";
-	// const std::string neck_01= "neck_01";
-	// const std::string head = "head";
-	// const std::string clavicle_l = "clavicle_l";
-	// const std::string upperarm_l = "upperarm_l";
-	// const std::string lowerarm_l = "lowerarm_l";
-	// const std::string hand_l = "hand_l";
-	// 
-	// const std::string clavicle_r = "clavicle_r";
-	// const std::string upperarm_r = "upperarm_r";
-	// const std::string lowerarm_r = "lowerarm_r";
-	// const std::string hand_r = "hand_r";
 
-	// const std::string thigh_l= "thigh_l";
-	// const std::string hand_l = "calf_l";
-	// const std::string hand_l = "foot_l";
-	// 
-	// const std::string thigh_r= "thigh_r";
-	// const std::string hand_r = "calf_r";
-	// const std::string hand_r = "foot_r";
-
- //}
-
-
- JsonBuild::JsonBuild(Bone bones[]) {
+ JsonBuild::JsonBuild(BoneTransLation bonesTranslation[]) {
 	
 	 Json::Value rootObject;
 	 Json::Value Bones;
@@ -89,25 +64,46 @@
 	 Json::Value foot_r;
 
 
-	 bonesMap.insert(std::pair<Json::Value, std::string>(spine_01,"spine_01"));
-	 bonesMap.insert(std::pair<Json::Value, std::string>(spine_05,"spine_05"));
-	 bonesMap.insert(std::pair<Json::Value, std::string>(head,"head"));
-	 bonesMap.insert(std::pair<Json::Value, std::string>(clavicle_l,"clavicle_l"));
-	 bonesMap.insert(std::pair<Json::Value, std::string>(upperarm_l,"upperarm_l"));
-	 bonesMap.insert(std::pair<Json::Value, std::string>(lowerarm_l,"lowerarm_l"));
-	 bonesMap.insert(std::pair<Json::Value, std::string>(hand_l,"hand_l"));
-	 bonesMap.insert(std::pair<Json::Value, std::string>(clavicle_r,"clavicle_r"));
-	 bonesMap.insert(std::pair<Json::Value, std::string>(upperarm_r,"upperarm_r"));
-	 bonesMap.insert(std::pair<Json::Value, std::string>(lowerarm_r,"lowerarm_r"));
-	 bonesMap.insert(std::pair<Json::Value, std::string>(hand_r,"hand_r"));
-	 bonesMap.insert(std::pair<Json::Value, std::string>(thigh_l,"thigh_l"));
-	 bonesMap.insert(std::pair<Json::Value, std::string>(calf_l,"calf_l"));
-	 bonesMap.insert(std::pair<Json::Value, std::string>(foot_l,"foot_l"));
-	 bonesMap.insert(std::pair<Json::Value, std::string>(thigh_r,"thigh_r"));
-	 bonesMap.insert(std::pair<Json::Value, std::string>(calf_r,"calf_r"));
-	 bonesMap.insert(std::pair<Json::Value, std::string>(foot_r,"foot_r"));
-	 
-	 
-	 
+	 bonesMap.insert(std::pair<std::string,Json::Value>("spine_01", spine_01));
+	 bonesMap.insert(std::pair<std::string,Json::Value>("spine_05", spine_05));
+	 bonesMap.insert(std::pair<std::string,Json::Value>("head", head));
+	 bonesMap.insert(std::pair<std::string,Json::Value>("clavicle_l", clavicle_l));
+	 bonesMap.insert(std::pair<std::string,Json::Value>("upperarm_l", upperarm_l));
+	 bonesMap.insert(std::pair<std::string,Json::Value>("lowerarm_l", lowerarm_l));
+	 bonesMap.insert(std::pair<std::string,Json::Value>("hand_l", hand_l));
+	 bonesMap.insert(std::pair<std::string,Json::Value>("clavicle_r", clavicle_r));
+	 bonesMap.insert(std::pair<std::string,Json::Value>("upperarm_r", upperarm_r));
+	 bonesMap.insert(std::pair<std::string,Json::Value>("lowerarm_r", lowerarm_r));
+	 bonesMap.insert(std::pair<std::string,Json::Value>("hand_r", hand_r));
+	 bonesMap.insert(std::pair<std::string,Json::Value>("thigh_l", thigh_l));
+	 bonesMap.insert(std::pair<std::string,Json::Value>("calf_l", calf_l));
+	 bonesMap.insert(std::pair<std::string,Json::Value>("foot_l", foot_l));
+	 bonesMap.insert(std::pair<std::string,Json::Value>("thigh_r", thigh_r));
+	 bonesMap.insert(std::pair<std::string,Json::Value>("calf_r", calf_r));
+	 bonesMap.insert(std::pair<std::string,Json::Value>("foot_r", foot_r));
+
+	 if (bonesTranslation == NULL) {
+		 return;
+	 }
+	 int len = sizeof(bonesTranslation) / sizeof(bonesTranslation);
+	 if (len != bonesMap.size()) {
+		 return;
+	 }
+
+	 for (std::pair<std::string,Json::Value> bonePair : bonesMap) {
+		 bonePair.second["Position"].append(bonesTranslation->bonePosition.x);
+		 bonePair.second["Position"].append(bonesTranslation->bonePosition.y);
+		 bonePair.second["Position"].append(bonesTranslation->bonePosition.z);
+		 
+		 bonePair.second["Rotation"].append(bonesTranslation->boneQuat.x);
+		 bonePair.second["Rotation"].append(bonesTranslation->boneQuat.y);
+		 bonePair.second["Rotation"].append(bonesTranslation->boneQuat.z);
+		 bonePair.second["Rotation"].append(bonesTranslation->boneQuat.w);
+		 
+		 Bones[bonePair.first] = Json::Value(bonePair.second);
+	 }
+
+	 rootObject["Bones"].append(Bones);
+	 rootObject["Frame"].append(Frame);
 
  }
