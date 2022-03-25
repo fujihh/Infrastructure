@@ -4,6 +4,7 @@
 #include<WinSock2.h>
 #include<vector>
 #include<string>
+#include<map>
 
 class UDPClient {
 public:
@@ -53,16 +54,36 @@ namespace Bones {
 	//extern const Json::Value ball_r;
 }
 
-struct bones
+
+typedef struct _Vector4
 {
-	Json::Value spine_01;
-};
+	float x;
+	float y;
+	float z;
+	float w;
+} 	Vector4;
+typedef struct _Vector3
+{
+	float x;
+	float y;
+	float z;
+} 	Vector3;
+
+
+typedef struct _Bone {
+	//std::string boneName;
+	Vector4 boneQuat;
+	Vector3 bonePosition;
+}	Bone;
+
 class JsonBuild
 {
 public:
-	JsonBuild(Json::Value jsonObject );
+	JsonBuild(Bone bones[]);
 	//void ParseBone(Json::Value jsonObject, const std::string& BoneName);
 private:
 	std::vector<std::string>boneNames;
 	std::vector<Json::Value>boneJsonObjects;
+	std::map<Json::Value, std::string>bonesMap;
+
 }; 
